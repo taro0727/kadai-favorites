@@ -13,7 +13,7 @@ class MicropostsController extends Controller
            //認証済みユーザを取得
            $user = \Auth::user();
            //ユーザの投稿一覧を作成日時の降順で取得
-           $microposts = $user->microposts()->orderBy('created_at','desc')->paginate(10);
+           $microposts = $user->feed_microposts()->orderBy('created_at','desc')->paginate(10);
            
            $data = [
                'user' => $user,
@@ -22,7 +22,7 @@ class MicropostsController extends Controller
         }
         
         //Welcomeビューでそれらを表示
-        return view('welcome'.$data);
+        return view('welcome',$data);
     }
     
     public function store(Request $request)
@@ -33,8 +33,8 @@ class MicropostsController extends Controller
             ]);
             
         //認証済みユーザ(閲覧者)の投稿として作成
-        $request->user()->$microposts()->create([
-            'content' =>$request->contetn,
+        $request->user()->microposts()->create([
+            'content' =>$request->content,
             ]);
             
         //前のURLへリダイレクトさせる
@@ -45,10 +45,10 @@ class MicropostsController extends Controller
     public function destroy($id)
         {
             //idの値で投稿を検索して取得
-            $microposts = \App\Micropost::findOrFail($id);
+            $micropost = \App\Micropost::findOrFail($id);
             
             //認証済みユーザ（閲覧者）がその投稿者である場合は、投稿を削除
-            if(\Auth::id() == $micropost->user->uder_id){
+            if(\Auth::id() === $micropost->user_id){
                 $micropost->delete();
             }
             

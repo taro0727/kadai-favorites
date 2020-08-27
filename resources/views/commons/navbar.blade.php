@@ -27,9 +27,10 @@
                 {{-- ユーザ登録ページへのリンク --}}
                 <li>{!! link_to_route('signup.get', 'Signup', [], ['class' => 'nav-link']) !!}</li>
                 {{-- ログインページへのリンク --}}
-                <li class="nav-item"><a href="#" class="nav-link">Login</a></li>
+                <li class="nav-item">{!! link_to_route('login.post', 'Login',[],['class'=> 'nav-link']) !!}</a></li>
                 @endif
             </ul>
         </div>
     </nav>
 </header>
+
